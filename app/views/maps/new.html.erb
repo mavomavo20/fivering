@@ -1,0 +1,459 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>物件登録</title>
+<meta http-equiv="content-language" content="ja">
+<style type="text/css">
+  @import url(<%= @servername.html_safe %>/assets/jquery-ui-custom.min.css);
+  @import url(<%= @servername.html_safe %>/assets/template.css);
+  
+  body {
+    margin-top: 0;
+  }
+
+  #titleTable tr td img{
+	vertical-align: middle;
+	padding: 0 3px;
+  }
+  
+  #titleTable tr td {
+    font-size: x-large;
+	font-weight: bolder;
+	text-align: left;
+	vertical-align: middle;
+  }
+  
+  #map { 
+  	height: 430px;
+  	width: 960px;
+  	margin-left: auto;
+  	margin-right: auto;
+  	margin-top: 5px;
+  	margin-bottom: 5px;
+  	padding-left: 10px;
+  	text-align: center;
+  }
+  .mapDiv {
+  	margin-left: auto;
+  	margin-right: auto;
+  	margin-top: 5px;
+  	padding: 5px 0px;
+  	text-align: left;
+  	vertical-align: middle;
+  }
+  
+  .urlDiv {
+  	width: 1000px;
+    background-color: #aaaaaa;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-right: 0px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    text-align: left;
+  }
+  
+  #inputDiv {
+    width: 1000px;
+    background-color: #cccccc;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-top: 0px;
+    padding-bottom: 3px;
+  }
+  
+  #inputTable {
+    margin-left: 20px;
+    padding: 0;
+  }
+  
+  .textBox {
+  	width: 350px;
+  	height: 18px;
+  	margin: 1px 0px;
+  }
+  
+  #titleBox {
+  	width: 550px;
+  	height: 18px;
+  	margin-left: 3px;
+  }
+  
+  #getButton {
+  	height: 100%;
+  	width: 80px;
+  	margin-top: 0;
+  	margin-bottom: 0;
+    margin-left: 5px;
+  }
+  
+  #topTable {
+  	  width: 100%;
+  }
+  
+  #messageCol {
+  	  width: 400px;
+  }
+  #resetCol {
+  	  text-align: right;
+  	  padding-right: 20px;
+  }
+  
+  #infodiv{
+	width:140px;
+	height:25px;
+	text-align: center;
+  }
+  
+  #savedUrlTextArea, #urlTextArea {
+  	width: 960px;
+  	background-color: #FFFFFF;
+  	font-family: sans-serif;
+  	margin: 2px 10px;
+  }
+  
+  #symbol {
+  	color: RED;
+  }
+
+
+  .menuButton {
+    width: 100%;
+    height: 30px;
+    vertical-align: middle;
+    background-color: #444499;
+    color: #FFFFFF;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: x-large;
+    font-weight: bolder;
+    cursor: default;
+  }
+  
+  .menuButton.over {
+    width: 100%;
+    height: 30px;
+    vertical-align: middle;
+    background-color: #444499;
+    color: #FFFFFF;
+    opacity: .8;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: x-large;
+    font-weight: bolder;
+    cursor: pointer;
+  }
+  
+  .blankCol {
+    width: 200px;
+  }
+  
+  .blankButton {
+    height: 30px;
+    vertical-align: middle;
+    background-color: #444499;
+  }
+  
+  #controllTable td {
+    border: 1px #444499 solid;
+    vertical-align: middle;
+  }
+</style>
+
+<script src="http://maps.google.com/maps/api/js?v=3&sensor=false"
+    type="text/javascript" charset="UTF-8"></script>
+<script src="<%= @servername.html_safe %>/assets/common.js"></script>
+<script type="text/javascript">
+
+var map;
+var geo;
+var list = new Array();
+var currentCenter;
+var letterList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+var count = 0;
+
+// 初期化。bodyのonloadでinit()を指定することで呼び出してます
+function init() {
+
+  // Google Mapで利用する初期設定用の変数
+  var latlng = new google.maps.LatLng(39, 138);
+  var opts = {
+    zoom: 16, //ズーム調整 **************
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    center: latlng
+  };
+
+  // getElementById("map")の"map"は、body内の<div id="map">より
+  map = new google.maps.Map(document.getElementById("map"), opts);
+
+  // ジオコードリクエストを送信するGeocoderの作成
+  geo = new google.maps.Geocoder();
+
+  // GeocoderRequest
+  var req = {
+    address: "東京都渋谷区道玄坂２－１８－１１　サンモール道玄坂",
+  };
+  geo.geocode(req, initCallback);
+}
+
+/*******************************/
+function initCallback(result, status) {
+  if (status != google.maps.GeocoderStatus.OK) {
+    alert(status);
+    return;
+  }
+
+  var latlng = result[0].geometry.location;
+  map.setCenter(latlng);
+  var msg = "ファイブリング株式会社";
+  var marker = new google.maps.Marker({position:latlng, map:map, title:msg, icon:"<%= @servername.html_safe %>/assets/comp_logo.png"});
+  attachMessage(marker, msg);
+}
+
+/*******************************/
+function myResultCallback(result, status) {
+  if (status != google.maps.GeocoderStatus.OK) {
+    alert("地点検索に失敗しました。人間をやめてください。");
+    return;
+  }
+
+  count = count + 1;
+  //リストにクエリを保存
+  var address = $("#addressBox").val();
+  var name = $("#nameBox").val();
+  var comment = $("#commentBox").val();
+  list.push({address:address, name:name, comment:comment});
+
+  var latlng = result[0].geometry.location;
+  
+  var msg = letterList[count - 1];
+  var name = $('#nameBox').val();
+  var marker = new google.maps.Marker({position:latlng, map:map, title:msg, icon:"<%= @servername.html_safe %>/assets/comp_logo_" + msg + ".png"});
+  //中心座標の計算
+  if(currentCenter == undefined){
+    currentCenter = new google.maps.LatLng(latlng.ob, latlng.pb);
+  }else{
+    currentCenter.ob = (currentCenter.ob + latlng.ob) / 2.0;
+    currentCenter.pb = (currentCenter.pb + latlng.pb) / 2.0;
+  }
+  map.setCenter(currentCenter);
+
+  attachMessage(marker, name);
+  $("#symbol").text(letterList[count]);
+  $("#addressBox").val("");
+  $("#nameBox").val("");
+  $("#commentBox").val("");
+  $("#nameBox").focus();
+}
+
+function attachMessage(marker, msg) {
+	var cont = '<div id="infodiv">' + msg + '</div>';
+	var infowin = new google.maps.InfoWindow({
+			content: cont,
+		});
+	google.maps.event.addListener(marker, 'click', function(event) {
+		infowin.open(marker.getMap(), marker);
+	});
+}
+
+function renew(){
+  if($("#nameBox").val() == ""){
+    alert("物件名は必ず入れてください。");
+    return;
+  }
+
+  var req = {
+    address: $("#addressBox").val(),
+  };
+  geo.geocode(req, myResultCallback);
+}
+
+function show(){
+  var url = "http://maps.googleapis.com/maps/api/staticmap?";
+  var markers = new Array();
+  for(i = 0; i < list.length; i = i + 1){
+    var elem = {markers: "label:" + letterList[i] + "|" + list[i].address};
+    var buf = $.param(elem);
+	markers.push(buf);
+  }
+  var pos = map.getCenter();
+  var params = {
+  	sensor : false,
+  	size : "680x400",
+  	zoom : map.getZoom(),
+  	center : pos.lat() + "," + pos.lng(),
+  };
+  url = url + $.param(params) + "&" + markers.join("&");
+  $("#urlTextArea").text(url);
+  $("#urlTextArea").show(500);
+  $("#urlTextArea").focus();
+}
+
+function hide(){
+	$("#urlTextArea").hide(500);
+	$("#urlTextArea").text();
+}
+
+//submit処理
+function save(){
+  if(list.length == 0){
+    alert("なにも登録されていません。あなたはクズです。");
+  	return;
+  }
+  if($("#titleBox").val() == ""){
+    alert("タイトルは必ず入力してください。寝ボケてませんか？");
+  	return;
+  }
+  
+  var title = $("#titleBox").val();
+  var zoom = map.getZoom();
+  var pos = map.getCenter();
+  var center = [pos.lat(),pos.lng()];
+  
+  dat = {
+  	data:JSON.stringify(list),
+  	title:title,
+  	center:JSON.stringify(center),
+  	zoom:zoom,
+    }
+  
+  $.ajax({
+    url: "<%= @servername %>/maps/commit",
+    type: "GET",
+    data: dat,
+    datatype: "json",
+    success: function(data) {
+      $("#savedUrlTextArea").text(data.url);
+      $("#savedUrlTextArea").show();
+      $("#savedUrlTextArea").focus();
+    },
+    error: function(data) {
+      alert("失敗しました。人生をやり直してください。");
+    },
+    complete : function(data) {
+    },
+    traditional: true,
+  });
+}
+
+/* 初期化処理 ************************************/
+$(function(){
+	//サーバへのsubmit防止
+	$("#register_form").keypress(function(ev) {
+		if ((ev.which && ev.which === 13) || (ev.keyCode && ev.keyCode === 13)) {
+			return false;
+		} else {
+			return true;
+		}
+	});
+	//エンターキーで更新
+	$("#getButton").keypress(function(ev) {
+		if ((ev.which && ev.which === 13) || (ev.keyCode && ev.keyCode === 13)) {
+			renew();
+		}
+	});
+	//エンターキーでセーブ
+	$("#saveButton").keypress(function(ev) {
+		if ((ev.which && ev.which === 13) || (ev.keyCode && ev.keyCode === 13)) {
+			save();
+		}
+	});
+	$("#urlTextArea").hide();
+	$("#savedUrlTextArea").hide();
+});
+$(window).bind("load",function(){
+	$(".contents").fadeIn("1000");
+	$(".foot.div").show("1000");
+	$("#nameBox").focus();
+});
+
+//]]>
+
+
+
+</script>
+</head>
+
+<body onload="init()">
+
+	<!-- 以下、コンテンツ ---------------------------------------->
+	<div class="contents">
+		<hr>
+		<table id="titleTable">
+			<tr>
+				<td>
+					<img src="<%= @servername.html_safe %>/assets/comp_logo.jpg" id="comp_logo" width="30px">
+				</td><td>
+					物件の登録
+				</td>
+			</tr>
+		</table>
+		<hr>
+		<!-- コントロールボタン部分 ---------------------------------------->
+		<div class="controll bar">
+			<table id="controllTable"><tr>
+			<td class="blankCol"><div class="blankButton"></div></td>
+			<td><div id="admin_pageButton" class="menuButton">管理トップ</div></td>
+			<td><div id="newButton" class="menuButton">地図の登録</div></td>
+			<td><div id="managementButton" class="menuButton">ファイル管理</div></td>
+			<td class="blankCol"><div class="blankButton"></div></td>
+			</tr></table>
+		</div>
+		<div class="mapDiv">
+		    <div id="inputDiv">
+				<table id="topTable">
+					<tr>
+						<td id="messegeCol">ラベル<span id="symbol">A</span>の情報を入力</td>
+						<td id="resetCol"><input type="button" id="resetButton" value="やり直し" onclick="location.reload();" tabindex="1"/></td>
+					</tr>
+				</table>
+				<form id="register_form">
+				<table id="inputTable">
+				  <tr>
+				    <td>物件名</td><td><input type="text" class="textBox" id="nameBox" onfocus="hide()" value="" tabindex="3"/></td>
+				    <td rowspan="3"><input type="button" id="getButton" value="追加" onclick="renew()" tabindex="6"/></td>
+				  </tr><tr>
+				    <td>住所</td><td><input type="text" class="textBox" id="addressBox" onfocus="hide()" value="" tabindex="4"/></td>
+				  </tr><tr>
+				    <td>コメント</td><td><input type="text" class="textBox" id="commentBox" onfocus="hide()" value="" tabindex="5"/></td>
+				  </tr>
+				</table>
+			    </form>
+			</div>
+			<div class="urlDiv">
+		    	表示するタイトルを入力してください。<input type="text" id="titleBox" onfocus="hide()" value="" tabindex="10"/>
+				<input type="button" id="saveButton" value="保存" onclick="save()" tabindex="11"/>
+				<textarea id="savedUrlTextArea" readonly onfocus="this.select();"></textarea>
+		    </div>
+			
+			<div id="map"></div>
+			<div class="urlDiv">
+				<input type="button" id="showButton" value="画像URL表示" onclick="show()" tabindex="20"/><br>
+				<textarea id="urlTextArea" readonly onfocus="this.select();"></textarea>
+			</div>
+		</div>
+</div>
+</body>
+<script type="text/javascript">
+$(function(){
+  $("#newButton").css("opacity", ".8");
+});
+$(".menuButton")
+  .mouseover(function(){
+    $(this).removeClass("menuButton").addClass("menuButton over");
+  })
+  .mouseout(function(){
+    $(this).removeClass("menuButton over").addClass("menuButton");
+  })
+  .click(function(){
+    var id = $(this).attr("id").replace("Button", "");
+    location.href = "<%= @servername %>/maps/" + id;
+  });
+</script>
+</html>

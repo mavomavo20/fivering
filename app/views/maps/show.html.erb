@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>物件のご紹介</title>
+<meta http-equiv="content-language" content="ja">
+<style type="text/css">
+  @import url(<%= @servername.html_safe %>/assets/jquery-ui-custom.min.css);
+  @import url(<%= @servername.html_safe %>/assets/template.css);
+  
+  #map { 
+  	height: 430px;
+  	width: 960px;
+  	margin-left: auto;
+  	margin-right: auto;
+  	margin-top: 5px;
+  	margin-bottom: 10px;
+  }
+  #mapBox {
+    background-color: #DDDDDD;
+  	width: 960px;
+  	margin-left: auto;
+  	margin-right: auto;
+  	margin-top: 5px;
+  	padding: 5px 40px;
+  	text-align: left;
+  	vertical-align: middle;
+  }
+  
+  #titleDiv {
+	background-color: #AAAAAA;
+	width: 960px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 5px;
+	padding: 5px 35px 5px 45px;
+	text-align: left;
+	vertical-align: middle;
+	font-size: x-large;
+	font-family: "ヒラギノ角ゴ Pro","Hiragino Kaku Gothic Pro"; font-weight: bold;
+  }
+  
+  #infodiv{
+	width:140px;
+	height:20px;
+	text-align: center;
+  }
+  
+  #propTable {
+  	width: 960px;
+  	margin-top: 2px;
+  	margin-bottom: 2px;
+  	margin-left: auto;
+  	margin-right: auto;
+  }
+  
+  #propTable th {
+  	border: 1px #cc9977 solid;
+  	background-color: #eebb99;
+	text-align: left;
+	padding: 2px 8px;
+  }
+  
+  #propTable td {
+  	border: 1px #ddaa88 solid;
+  	background-color: #FFFFFF;
+	text-align: left;
+	padding: 2px 8px;
+  }
+  
+  .posCol {
+    width: 70px;
+    font-size: x-large;
+  }
+  
+  .nameCol {
+    width: 300px;
+  }
+
+</style>
+
+<script src="http://maps.google.com/maps/api/js?v=3&sensor=false" type="text/javascript" charset="UTF-8"></script>
+<script src="<%= @servername.html_safe %>/assets/common.js"></script>
+<script type="text/javascript">
+
+var map;
+var geo;
+var locations = new Array();
+var json = JSON.parse('<%= @json.html_safe %>');
+var title = json.title;
+var placeArray = json.data;
+var interval;
+var letterList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+
+function init() {
+
+  var zoom = json.zoom;
+  var center = json.center;
+
+  console.log(placeArray);
+
+  // Google Mapの表示系
+  var latlng = new google.maps.LatLng(center[0], center[1]);
+  var opts = {
+    zoom: zoom,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    center: latlng
+  };
+  map = new google.maps.Map(document.getElementById("map"), opts);
+  geo = new google.maps.Geocoder();
+  
+  $("#titleDiv").text(title);
+  
+  //データの挿入
+  for(var itr = 0; itr < placeArray.length; itr = itr + 1){
+  	var req = {
+  	 	address: placeArray[itr].address,
+  	};
+  	geo.geocode(req, initCallback(itr));
+  	
+  	//隔行塗りつぶし
+  	var color = {"background-color":"#FFEEDD"}
+  	if(itr % 2 == 0){
+  	  color = {"background-color":"#FFFFFF"}
+  	}
+  	
+  	var comment = placeArray[itr].comment;
+  	if(comment == ""){
+  	  comment = "－";
+  	}
+    $("#propTable")
+    .append($("<tr/>")
+        .append($("<td class='posCol' rowspan='2'/>").css(color).css({"text-align":"center"}).text(letterList[itr]))
+        .append($("<td class='nameCol'/>").css(color).text(placeArray[itr].name))
+        .append($("<td class='addressCol'/>").css(color).text(placeArray[itr].address)))
+    .append($("<tr/>")
+        .append($("<td colspan='2'/>").css(color).css({"color":"#000044"}).text(comment)))
+  }
+  //interval = setInterval("setCenter(locations)", 500);
+  
+}
+
+/*******************************/
+function initCallback(nowItr){
+  return function(result, status) {
+    if (status != google.maps.GeocoderStatus.OK) {
+      alert(status);
+      return;
+    }
+
+    var latlng = result[0].geometry.location;
+    locations.push(latlng);
+    var marker = new google.maps.Marker({position:latlng, map:map, icon:"<%= @servername.html_safe %>/assets/comp_logo_" + letterList[nowItr] + ".png"});
+    attachMessage(marker, placeArray[nowItr].name);
+  }
+}
+
+function attachMessage(marker, msg) {
+	var cont = '<div id="infodiv">' + msg + '</div>';
+	var infowin = new google.maps.InfoWindow({
+			content: cont,
+		});
+	google.maps.event.addListener(marker, 'click', function(event) {
+		infowin.open(marker.getMap(), marker);
+	});
+}
+
+function setCenter(loc){
+	if(loc.length == placeArray.length){
+		var ob = 0.0, pb = 0.0, num = loc.length;
+		for(var i = 0; i < loc.length; i = i + 1){
+			ob = ob + loc[i].ob;
+			pb = pb + loc[i].pb;
+		}
+		ob = ob / num;
+		pb = pb / num;
+		map.setCenter(new google.maps.LatLng(ob, pb));
+		clearInterval(interval);
+		return;
+	}
+}
+
+/* 初期化処理 ************************************/
+$(function(){
+	commonInit();
+});
+$(window).bind("load",function(){
+	$(".contents").fadeIn("1000");
+	$(".foot.div").show("1000");
+});
+
+</script>
+</head>
+
+<body onload="init()">
+  
+<!-- メインタイトル部分 ---------------------------------------->
+<hr>
+<div class="title div">
+	<table>
+	<tr>
+	<td>
+		<img src="<%= @servername.html_safe %>/assets/comp_logo.jpg" id="comp_logo" width="40px">
+	</td><td>
+		ファイブリング株式会社
+	</td>
+	</tr>
+	</table>
+</div>
+<hr>
+
+<!-- コントロールボタン部分 ---------------------------------------->
+<div class="controll bar">
+	<table><tr>
+	<td><div id="home_button" class="bar_button">ホーム</div></td>
+	<td><div id="comp_button" class="bar_button">会社概要</div></td>
+	<td><div id="service_button" class="bar_button">サービス</div></td>
+	<td><div id="owner_button" class="bar_button">オーナー様へ</div></td>
+	<td><div id="contact_button" class="bar_button">お問い合わせ</div></td>
+	</tr></table>
+</div>
+
+<!-- 以下、コンテンツ ---------------------------------------->
+<div class="contents">
+
+    <div id="titleDiv"></div>
+    <div id="mapBox">
+    	<div id="map"></div>
+    	
+    	<table id="propTable">
+        <tr>
+          <th>位置</th>
+          <th>物件名</th>
+          <th>住所</th>
+        </tr>
+      </table>
+    </div>
+
+	<!-- 以下、フッタ ---------------------------------------->
+	<div class="foot div">
+	事業用不動産ならファイブリング
+	</div>
+</div>
+</body>
+
+</html>

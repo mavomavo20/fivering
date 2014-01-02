@@ -1,0 +1,252 @@
+﻿<html>
+<head>
+<meta http-equiv="content-language" content="ja">
+<title>登録管理</title>
+
+<style type="text/css">  
+
+  #titleTable tr td img{
+	vertical-align: middle;
+	padding: 0 3px;
+  }
+  
+  #titleTable tr td {
+    font-size: x-large;
+	font-weight: bolder;
+	text-align: left;
+	vertical-align: middle;
+  }
+
+  #filesTable {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4px;
+  }
+  
+  .numCol {
+    width: 30px;
+  }
+  
+  .titleCol {
+    width: 400px;
+  }
+  .mdateCol {
+    width: 130px;
+  }
+  .mtimeCol {
+    width: 110px;
+  }
+  
+  .showButtonCol, .delButtonCol {
+    width: 100px;
+  }
+  
+  .showButton, .delButton {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  th {
+    background-color: #bb7766;
+    border: 1px #aa7766 solid;
+    padding: 2px 5px;
+    text-align: left;
+  }
+
+  #messageDiv {
+    margin-bottom: 0px;
+    width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: x-large;
+    font-weight: bolder;
+  }
+  
+  #filesTable tr, #filesTable td {
+    border: 1px #aa7766 solid;
+    padding: 2px 5px;
+    text-align: left;
+  }
+  
+  #filesTable hr {
+    margin: 3px 0px;
+  }
+
+  .menuButton {
+    width: 100%;
+    height: 30px;
+    vertical-align: middle;
+    background-color: #444499;
+    color: #FFFFFF;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: x-large;
+    font-weight: bolder;
+    cursor: default;
+  }
+  
+  .menuButton.over {
+    width: 100%;
+    height: 30px;
+    vertical-align: middle;
+    background-color: #444499;
+    color: #FFFFFF;
+    opacity: .8;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: x-large;
+    font-weight: bolder;
+    cursor: pointer;
+  }
+  
+  .blankCol {
+    width: 200px;
+  }
+  
+  .blankButton {
+    height: 30px;
+    vertical-align: middle;
+    background-color: #444499;
+  }
+  
+  #controllTable td {
+    border: 1px #444499 solid;
+    vertical-align: middle;
+  }
+  
+</style>
+
+<script src="<%= @servername.html_safe %>/assets/jquery-ui-custom.min.js"></script>
+<script type="text/javascript">
+  var jsonArray = JSON.parse('<%= @jsonArray.html_safe %>');
+  
+  //初期化処理
+  function init(){
+	for(var i = 0; i < jsonArray.length; i++){
+	    var json = jsonArray[i];
+	    var color = {"background-color":"#FFFFFF"};
+	    if(i % 2 == 1){
+	      color = {"background-color":"#FFDDCC"};
+	    }
+		$("#filesTable").append(
+		  $("<tr/>")
+		    .append($("<td/>").css("text-align", "center").css(color).text(i + 1))
+		    .append($("<td/>").css(color).text(json.title))
+		    .append($("<td/>").css("text-align", "center").css(color).text(json.mdate))
+		    .append($("<td/>").css("text-align", "center").css(color).text(json.mtime))
+		    .append($("<td/>").css(color).append('<input type="button" class="showButton" value="開く" onclick="show(\'' + json.id + '\')"/>'))
+		    .append($("<td/>").css(color).append('<input type="button" class="delButton" value="削除" onclick="del(\'' + json.id + '\')"/>'))
+		);
+    }
+  }
+  
+  function show(id){
+    window.open("<%= @servername%>/maps/show?id=" + id);
+  }
+  
+  function del(id){
+    //確認ダイアログの表示
+    var message = '削除すると戻せませんが、よろしいですか？';
+    $("<div>" + message + "</div>").dialog({
+        title: "削除確認",
+	    buttons: {
+	        "はい": function(event) {
+	            delExcute(id);
+	            $(this).dialog("close");
+	        },
+	        "いいえ": function(event) {
+		    $(this).dialog("close");
+	        }
+	    },
+	    close: function(event) {
+            $(this).dialog('destroy');
+            $(event.target).remove();
+        },
+	});
+  }
+  
+  function delExcute(id){
+    dat = {id:id}
+    $.ajax({
+	    url: "<%= @servername %>/maps/del",
+	    type: "GET",
+	    data: dat,
+	    datatype: "json",
+	    success: function(data) {
+	      if(data.result == "ok"){
+		    alert("削除しました。");
+		    location.reload();
+		  }else{
+		    alert("失敗したそうです。きっとファイルが既にないのでしょう。");
+		    location.reload();
+		  }
+	    },
+	    error: function(data) {
+	      alert("失敗しました。人生をやり直してください。");
+	    },
+	    complete : function(data) {
+	    },
+	    traditional: true,
+    });
+  }
+  
+</script>
+</head>
+<body onload="init();">
+<hr>
+<table id="titleTable">
+	<tr>
+		<td>
+			<img src="<%= @servername.html_safe %>/assets/comp_logo.jpg" id="comp_logo" width="30px">
+		</td><td>
+			現在の登録一覧
+		</td>
+	</tr>
+</table>
+<hr>
+<!-- コントロールボタン部分 ---------------------------------------->
+<div class="controll bar">
+	<table id="controllTable"><tr>
+	<td class="blankCol"><div class="blankButton"></div></td>
+	<td><div id="admin_pageButton" class="menuButton">管理トップ</div></td>
+	<td><div id="newButton" class="menuButton">地図の登録</div></td>
+	<td><div id="managementButton" class="menuButton">ファイル管理</div></td>
+	<td class="blankCol"><div class="blankButton"></div></td>
+	</tr></table>
+</div>
+<div id="content">
+	<div id="messageDiv">現在登録されている地図の一覧です。</div>
+	<table id="filesTable">
+	  <tr>
+	    <th class="numCol">No.</th>
+	    <th class="titleCol">タイトル</th>
+	    <th class="mdateCol">最終更新日</th>
+	    <th class="mtimeCol">最終更新時刻</th>
+	    <th class="showButtonCol">表示</th>
+	    <th class="delButtonCol">削除</th>
+	  </tr>
+	</table>
+</div>
+</body>
+
+<script type="text/javascript">
+$(function(){
+  $("#managementButton").css("opacity", ".8");
+});
+
+$(".menuButton")
+  .mouseover(function(){
+    $(this).removeClass("menuButton").addClass("menuButton over");
+  })
+  .mouseout(function(){
+    $(this).removeClass("menuButton over").addClass("menuButton");
+  })
+  .click(function(){
+    var id = $(this).attr("id").replace("Button", "");
+    location.href = "<%= @servername %>/maps/" + id;
+  });
+
+</script>
+
+</html>

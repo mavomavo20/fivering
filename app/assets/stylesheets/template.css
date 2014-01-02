@@ -1,0 +1,102 @@
+html {
+	overflow-y:scroll;
+}
+
+body {
+  width: 1260px;
+  font-family: Impact,Charcoal;
+  padding: 0 3px;
+  margin: 0 auto;
+}
+
+.contents {
+  margin: 0 auto;
+  text-align: center;
+
+}
+
+.title.div {
+  background-color: #111111;
+  padding: 1px 20px 1px 20px;
+  margin-top: 0px;
+  font-size: x-large;
+  color: #F7F7F7;
+}
+
+.foot.div {
+  background-color: #111111;
+  padding: 5px 20px 5px 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: #F7F7F7;
+  text-align: right;
+}
+
+.title.div table tr td {
+	padding: 5px 0px 5px 15px;
+	vertical-align: middle;
+}
+
+.title.div table tr td img {
+	margin: 0 auto;
+	vertical-align:middle;
+}
+
+
+.controll.bar {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.controll.bar table {
+	margin: atuo auto;
+	width: 100%;
+	vertical-align: middle;
+}
+.controll.bar table tr td{
+	width: 15%;
+	margin: auto;
+	vertical-align: middle;
+}
+
+.bar_button {
+	margin: auto 0px;
+	vertical-align: middle;
+	background-color: #111111;
+	width: 100%;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: large;
+	color: #FFFFFF;
+	cursor: default;
+}
+
+.bar_button.active {
+	margin: auto 0px;
+	vertical-align: middle;
+	background-color: #111111;
+	opacity: .7;
+	width: 100%;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: large;
+	font-weight: bolder;
+	color: #FFFFFF;
+	cursor: pointer;
+}
+
+table, td, th {
+	/* border: 1px #ff0000 solid; */
+	border-collapse: separate;
+	border-spacing: 0px;
+}
+
+hr {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
