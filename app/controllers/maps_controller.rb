@@ -3,7 +3,8 @@
 require 'json'
 
 class MapsController < ApplicationController
-  @@servername = "http://localhost:3000"
+  @@servername = 'http://fivering.herokuapp.com/'
+  #@@servername = "http://localhost:3000"
   @@fileIDLength = 12
   WEEK_EXP = ["日", "月", "火", "水", "木", "金", "土"]
   
