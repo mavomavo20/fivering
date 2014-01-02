@@ -1,10 +1,12 @@
-Fivering::Application.routes.draw do
+FiveRing::Application.routes.draw do
   get "maps/show"
   get "maps/new"
   get "maps/commit"
   get "maps/management"
   get "maps/del"
   get "maps/admin_page"
+  
+  match "maps" => "maps#admin_page", :via => :get
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+<title>ファイブリング株式会社</title>
+<meta name="description" content="事業用不動産の仲介業者"/>
+<meta name="keywords" content="ファイブリング, 不動産, 渋谷"/>
+
+<style>
+@import url(css/jquery-ui-custom.min.css);
+@import url(css/template.css);
+
+
+.message_box {
+	margin: 0 auto;
+	background-color: #eeeeee;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 40px;
+	padding-right: 40px;
+	width: 70%;
+}
+
+.message_box img {
+	width: 800px;
+}
+
+.message_text {
+	text-indent: 1em;
+	padding-top: 10px;
+	padding-bottom: 0px;
+}
+
+.message_title {
+	margin-top: 0px;
+	margin-bottom: 5px;
+	font-size: x-large;
+	text-align: left;
+	text-indent: 1em;
+	font-weight: bolder;
+}
+
+.message_footer {
+	font-size: small;
+	vertical-align: middle;
+	text-align: right;
+	margin: 0px auto;
+}
+
+.message_footer table{
+	width: 33%;
+	margin-top: 5px;
+	margin-left: auto;
+	margin-right: 0px;
+}
+.message_footer table tr td{
+	vertical-align: middle;
+}
+.message_footer table tr td img{
+	vertical-align: middle;
+}
+
+.contact {
+	text-align: right;
+	padding-right: 50px;
+}
+
+table, td, th {
+	/* border: 1px #ff0000 solid; */
+	border-collapse: separate;
+	border-spacing: 0px;
+}
+
+hr {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- メインタイトル部分 ---------------------------------------->
+<hr>
+<div class="title div">
+	<table>
+	<tr>
+	<td>
+		<img src="image/comp_logo.jpg" id="comp_logo" width="40px">
+	</td><td>
+		ファイブリング株式会社
+	</td>
+	</tr>
+	</table>
+</div>
+<hr>
+
+<!-- コントロールボタン部分 ---------------------------------------->
+<div class="controll bar">
+	<table><tr>
+	<td><div id="home_button" class="bar_button">ホーム</div></td>
+	<td><div id="comp_button" class="bar_button">会社概要</div></td>
+	<td><div id="service_button" class="bar_button">サービス</div></td>
+	<td><div id="owner_button" class="bar_button">オーナー様へ</div></td>
+	<td><div id="contact_button" class="bar_button">お問い合わせ</div></td>
+	</tr></table>
+</div>
+
+<!-- 以下、コンテンツ ---------------------------------------->
+<div class="contents">
+	<div class="message_box">
+
+		<div class="message_title">オーナー様へ</div>
+		
+		<img src="image/owner.jpg">
+		<div class="message_text">
+			弊社は事業用不動産専門で物件をご紹介しております。<br>
+			お客様への直接紹介をメインに、SNSやポータルサイトを駆使して競合他社よりも丁寧に<br>
+			わかりやすくご紹介させていただきますので、幅広くお客様をご紹介できるはずです。<br>
+			<br>
+			また、テナント誘致・紹介のみならず、ビル経営のコンサルティングもおこなっております。<br>
+			ビル運営にかかる経費の削減や、テナント誘致の方法等、<br>
+			少しでもオーナー様の助けになるように弊社がサポートいたします。<br>
+			<br>
+			末永く、良いお付き合いができるように全力を尽くしますので、<br>
+			ご相談・ご要望がございましたらお気軽にお電話下さい。<br>
+			<div class="contact">
+				Tel  : 03-5428-8274<br>
+				Mail : info@5-ring.com<br>
+			</div>
+		</div>
+	</div>
+	<!-- 以下、フッタ ---------------------------------------->
+	<div class="foot div">
+	事業用不動産ならファイブリング
+</div>
+</div>
+</body>
+
+<script src="lib/jquery.min.js"></script>
+<script src="lib/jquery-ui-custom.min.js"></script>
+<script src="lib/common.js"></script>
+<script>
+
+$(function(){
+	commonInit();
+	$("#owner_button").css("background-color", "#666666");
+});
+$(window).bind("load",function(){
+	$(".contents").fadeIn("1000");
+	$(".foot.div").show("1000");
+});
+
+</script>

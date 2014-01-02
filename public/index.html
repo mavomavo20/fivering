@@ -1,3 +1,647 @@
-Hello World!!
+﻿<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+<title>ファイブリング株式会社</title>
+<meta name="description" content="事業用不動産の仲介業者"/>
+<meta name="keywords" content="ファイブリング, 不動産, 渋谷"/>
 
-I'm not boy!
+<style>
+@import url(css/jquery-ui-custom.min.css);
+@import url(css/template.css);
+
+.main_contents {
+	margin: 10px 10px;
+}
+
+.main_contents.title {
+	height: 30px;
+	margin: 0px;
+	font-size: x-large;
+	text-align: left;
+	vertical-align: middle;
+	padding: 3px 0px 3px 15px;
+	background-color: #111111;
+	color: #F7F7F7;
+}
+
+#main_table {
+	vertical-align: top;
+	padding-top: 0;
+}
+
+.top_align_td {
+	vertical-align: top;
+}
+
+.message {
+	font-size: x-large;
+	padding: 6px 20px;
+	margin-top: 13px;
+	margin-bottom: 3px;
+	margin-left: 0px;
+	margin-right: 0px;
+	font-weight: bolder;
+	background-color: #FFFFFF;
+	text-align: left;
+}
+
+.examples {
+	text-align: center;
+	margin: 2px auto;
+	padding: 0 0;
+	background-color: #FFFFFF;
+	border: 1px #aaaaaa solid;
+}
+
+.examples table {
+	text-align: center;
+	width: 780px;
+	margin-top: 0;
+	margin-bottom: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 30px;
+	padding-right: 30px;
+	background-color: #dddddd;
+	/*border: 1px #aaaaaa solid;
+	box-shadow: 0px 0px 3px 3px #dddddd;
+	-moz-box-shadow: 0px 0px 3px 3px #dddddd;
+	-webkit-box-shadow: 0px 0px 3px 3px #dddddd;
+	border-radius: 20px 20px 20px 20px / 20px 20px 20px 20px; */
+}
+
+
+.examples table tr td img {
+	width: 200px;
+	cursor: default;
+	/* border-radius: 120px 120px 120px 120px / 120px 120px 120px 120px; */
+}
+
+.examples table tr td img.active {
+	width: 200px;
+	opacity: .8;
+	cursor: pointer;
+	/* border-radius: 120px 120px 120px 120px / 120px 120px 120px 120px; */
+}
+
+.example_name {
+	width: 200px;
+	background-color: #222244;
+	color: #FFFFFF;
+	font-size: large;
+	padding: 3px 0px;
+	margin: 0 auto;
+	cursor: default;
+}
+
+.example_name.active {
+	width: 200px;
+	background-color: #444477;
+	color: #FFFFFF;
+	font-size: large;
+	padding: 3px 0px;
+	margin: 0 auto;
+	font-weight: bolder;
+	cursor: pointer;
+}
+
+.recomend_title {
+	height: 30px;
+	vertical-align: middle;
+	font-size: x-large;
+	background-color: #111111;
+	color: #F7F7F7;
+	padding: 2px 5px 2px 15px;
+	margin-top: 10px;
+	margin-bottom: 2px;
+}
+
+#recomends {
+	background-color: #ffffff;
+	padding: 8px 10px;
+	border: 1px #aaaaaa solid;
+}
+
+.estate_card {
+	margin: 8px 10px;
+	cursor: default;
+}
+
+.estate_card.active {
+	opacity: .7;
+	margin: 8px 10px;
+	cursor: pointer;
+}
+
+.estate_table {
+	border: 1px #ddaa88 solid;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.estate_table td {
+	border: 1px #ddaa88 solid;
+	padding: 2px 4px;
+}
+
+.row_head {
+	width: 130px;
+	background-color: #ffccaa;
+	text-align: center;
+}
+
+.prop_col {
+	width: 350px;
+	background-color: #FFFFFF;
+	font-size: small;
+}
+
+.img_col {
+	background-color: #FFFFFF;
+}
+
+.estate_img {
+	width: 260px;
+}
+
+.sub_info{
+	margin: 10px 5px;
+	vertical-align: top;
+	background-color: #FFFFFF;
+}
+
+.panel {
+	padding-top: 3px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-bottom: 3px;
+	border: 1px #aaaaaa solid;
+	margin-top: 2px;
+	margin-bottom: 6px;
+}
+
+#sub_info_table {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.subinfo_title {
+	height: 30px;
+	vertical-align: middle;
+	font-size: x-large;
+	background-color: #111111;
+	color: #F7F7F7;
+	padding: 2px 5px 2px 15px;
+	margin-bottom: 0px;
+}
+
+#about_us_img{
+	width: 310px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+.whats_new_img {
+	width: 100px;
+}
+
+.sub_info.strong {
+	margin-top: 8px;
+	margin-bottom: 8px;
+	text-align: center;
+	/*font-size: large;*/
+	font-weight: bolder;
+}
+
+.whats_new_title {
+	padding-left: 7px;
+	font-size: large;
+	font-weight: bolder;
+}
+
+.sub_info.text {
+	/*padding-left: 2px;*/
+	text-indent: 1em;
+	vertical-align: top;
+	margin-top: 0px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.sub_info table tr td{
+	margin-left: auto;
+	margin-right: auto;
+	vertical-align: top;
+}
+
+.linkToMore {
+	color: #3333ff;
+	cursor: default;
+	text-decoration: underline;
+	display: inline-block;
+	_display: inline;
+}
+
+.linkToMore.active {
+	color: #aa33ee;
+	cursor: pointer;
+	text-decoration: underline;
+	display: inline-block;
+	_display: inline;
+}
+
+.linkToSearch {
+	color: #3333ff;
+	cursor: default;
+	text-decoration: underline;
+	display: inline-block;
+	_display: inline;
+}
+
+.linkToSearch.active {
+	color: #aa33ee;
+	cursor: pointer;
+	text-decoration: underline;
+	display: inline-block;
+	_display: inline;
+}
+
+table, td, th {
+	/* border: 1px #ff0000 solid; */
+	border-collapse: separate;
+	border-spacing: 0px;
+}
+
+hr {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+</style>
+
+</head>
+<body>
+<!-- メインタイトル部分 ---------------------------------------->
+<hr>
+<div class="title div">
+	<table>
+	<tr>
+	<td>
+		<img src="image/comp_logo.jpg" id="comp_logo" width="40px">
+	</td><td>
+		ファイブリング株式会社
+	</td>
+	</tr>
+	</table>
+</div>
+<hr>
+<!-- コントロールボタン部分 ---------------------------------------->
+<div class="controll bar">
+	<table><tr>
+	<td><div id="home_button" class="bar_button">ホーム</div></td>
+	<td><div id="comp_button" class="bar_button">会社概要</div></td>
+	<td><div id="service_button" class="bar_button">サービス</div></td>
+	<td><div id="owner_button" class="bar_button">オーナー様へ</div></td>
+	<td><div id="contact_button" class="bar_button">お問い合わせ</div></td>
+	</tr></table>
+</div>
+<!-- 以下、コンテンツ ---------------------------------------->
+<div class="contents">
+	<center>
+	<table id="main_table">
+	<tr>
+	<td style="width: 80%;" class="top_align_td">
+		<div class="main_contents">
+			<div class="main_contents title">
+				物件検索
+			</div>
+			<div class="examples">
+				<div class="message">事業用不動産のことなら何でもご相談ください！</div>
+				<center>
+				<table>
+				<tr>
+					<td>
+						<img id="warehouse_img" src="image/warehouse.jpg" class="round">
+					</td><td>
+						<img id="shop_img" src="image/shop.jpg" class="round">
+					</td><td>
+						<img id="office_img" src="image/office.jpg" class="round">
+					</td>
+				</tr><tr>
+					<td><div id="warehouse_name" class="example_name">倉庫検索</div>
+					</td><td><div id="shop_name" class="example_name">店舗検索</div>
+					</td><td><div id="office_name" class="example_name">オフィス検索</div>
+					</td>
+				</tr>
+				</table>
+				</center>
+				<h3>物件資料をご希望の方は<div class="linkToSearch">こちら</div></h3>
+			</div>
+			
+			<div class="recomend_title">
+				オススメの物件
+			</div>
+			<div id="recomends">
+			</div>
+			
+		</div>
+	</td>
+	
+	<td class="top_align_td">
+		<div class="sub_info">
+			<table id="sub_info_table">
+			<tr>
+				<td>
+					<div class="subinfo_title">
+						About us
+					</div>
+					<div class="panel">
+						<img src="image/about_us.jpg" id="about_us_img">
+						<div class="sub_info strong">事業用不動産専門のエキスパート集団<br>それがファイブリングです。</div>
+						<div class="sub_info text">
+							私たちは店舗や事務所、倉庫といった事業用の不動産をご紹介しています。
+							単に条件に合う物件をご紹介するだけでなく、業種や用途にマッチする
+							環境まで考慮して、不動産をご提案させていただきます。
+							私たちの業務に、お客さまの事業の命運がかかっていると言っても過言ではないほど、オフィスや店舗を構える場所は重要です。
+							ですので、私たちは…<div class="linkToMore">More...</div>
+						<div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="subinfo_title">
+						新着情報
+					</div>
+					<div class="panel">
+						<table>
+							<tr>
+								<td colspan="2">
+									<div class="whats_new_title">
+										雑誌に掲載されました
+									</div>
+									<hr style="margin: 0px">
+								</td>
+							</tr>
+							<tr>
+								<td style="vertical-align: top;">
+									<div class="sub_info text">
+									「Company Tank」の取材で、“本田泰人さん”を
+									インタビュアに迎え対談しました。
+									スポーツ一筋の方だと思っていましたが、ビジネス
+									にも精通しており、温かい激励の言葉をいただくことができました。
+									</div>
+								</td>
+								<td style="vertical-align: top;">
+									<img id="magazine_img" class="whats_new_img" src="image/magazine.jpg">
+								</td>
+							</tr>
+							
+							<tr>
+								<td colspan="2">
+									<div class="whats_new_title">
+										SOHO物件のご紹介
+									</div>
+									<hr style="margin: 0px">
+								</td>
+							</tr>
+							<tr>
+								<td style="vertical-align: top;">
+									<div class="sub_info text">
+									SOHOとは、Small Office/Home Office（スモールオフィス・ホームオフィス）の略です。
+									最近では、「住居兼事務所」という意味で使われることが多いです。
+									”事務所の費用が別にかからない”、”初期費用が安い”
+									などのメリットがあり、人気があります。
+									</div>
+								</td>
+								<td style="vertical-align: top;">
+									<img id="soho_img" class="whats_new_img" src="image/soho.jpg">
+								</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</td>
+	</tr>
+	</table>
+	</center>
+	<!-- 以下、フッタ ---------------------------------------->
+	<div class="foot div">
+	事業用不動産ならファイブリング
+	</div>
+</div>
+</body>
+
+<script src="lib/jquery.min.js"></script>
+<script src="lib/jquery-ui-custom.min.js"></script>
+<script src="lib/common.js"></script>
+<script>
+
+$(function(){
+	commonInit();
+	$("#home_button").css("background-color", "#666666");
+	addEstate("estate/doi.json", 1);
+	addEstate("estate/doi.json", 2);
+	addEstate("estate/doi.json", 3);
+});
+$(window).bind("load",function(){
+	$(".contents").fadeIn("1000");
+	$(".foot.div").show("1000");
+});
+
+//物件検索に関するイベント処理
+$(".example_name").hover(
+	function(){
+		var id = $(this).attr("id");
+		mouseoverExample(id);
+	},
+	function(){
+		var id = $(this).attr("id");
+		mouseoutExample(id);
+	})
+	.click(function(){
+		var id = $(this).attr("id");
+		clickExample(id);
+	});
+	
+//物件検索画像に関するイベント処理
+$(".examples table tr td img").hover(
+	function(){
+		var id = $(this).attr("id");
+		mouseoverExample(id);
+	},
+	function(){
+		var id = $(this).attr("id");
+		mouseoutExample(id);
+	})
+	.click(function(){
+		var id = $(this).attr("id");
+		clickExample(id);
+	});
+
+//物件検索アイテムにマウスオーバーした際の処理関数
+function mouseoverExample(id){
+	var idName = id.replace("_img", "").replace("_name", "");
+	var exampleName, exampleImg;
+	switch(idName){
+		case "warehouse":
+			exampleName = "#warehouse_name";
+			exampleImg = "#warehouse_img";
+			break;
+		case "shop":
+			exampleName = "#shop_name";
+			exampleImg = "#shop_img";
+			break;
+		case "office":
+			exampleName = "#office_name";
+			exampleImg = "#office_img";
+			break;
+	}
+	$(exampleName)
+		.removeClass("example_name")
+		.addClass("example_name active");
+	$(exampleImg).addClass("active");
+}
+//物件検索アイテムにマウスアウトした際の処理関数
+function mouseoutExample(id){
+	var idName = id.replace("_img", "").replace("_name", "");
+	var exampleName, exampleImg;
+	switch(idName){
+		case "warehouse":
+			exampleName = "#warehouse_name";
+			exampleImg = "#warehouse_img";
+			break;
+		case "shop":
+			exampleName = "#shop_name";
+			exampleImg = "#shop_img";
+			break;
+		case "office":
+			exampleName = "#office_name";
+			exampleImg = "#office_img";
+			break;
+	}
+	$(exampleName)
+		.removeClass("example_name active")
+		.addClass("example_name");
+	$(exampleImg).removeClass("active");
+}
+//物件検索アイテムをクリックした際の処理関数
+function clickExample(id){
+	var idName = id.replace("_img", "").replace("_name", "");
+	switch(idName){
+		case "warehouse":
+			outPage("http://asp.athome.jp/tokushu/ER_ID/047969/spcd/20131108120362/");
+			break;
+		case "shop":
+			outPage("http://asp.athome.jp/tokushu/ER_ID/047969/spcd/20131108120342/");
+			break;
+		case "office":
+			outPage("http://asp.athome.jp/tokushu/ER_ID/047969/spcd/20131108120361/");
+			break;
+	}
+}
+
+//雑誌掲載画像に関するイベント処理
+$("#magazine_img")
+	.hover(
+		function(){
+			$(this).css("opacity", ".8")
+			.css("cursor", "pointer");
+		},
+		function(){
+			$(this).css("opacity", "1.0")
+			.css("cursor", "default");
+		})
+	.click(function(){
+		movePage("book.html");
+	});
+$("#soho_img")
+	.hover(
+		function(){
+			$(this).css("opacity", ".8")
+			.css("cursor", "pointer");
+		},
+		function(){
+			$(this).css("opacity", "1.0")
+			.css("cursor", "default");
+		})
+	.click(function(){
+		outPage("http://asp.athome.jp/tokushu/ER_ID/047969/spcd/20131108120341/");
+	});
+
+$(".linkToSearch").click(function() {
+	movePage("contact.html");
+})
+.hover(
+	function(){
+		$(this).removeClass("linkToSearch").addClass("linkToSearch active");
+	},function(){
+		$(this).removeClass("linkToSearch active").addClass("linkToSearch");
+	}
+);
+
+$(".linkToMore").click(function() {
+	movePage("comp_property.html");
+})
+.hover(
+	function(){
+		$(this).removeClass("linkToMore").addClass("linkToMore active");
+	},function(){
+		$(this).removeClass("linkToMore active").addClass("linkToMore");
+	}
+);
+
+//物件情報を追加する処理
+function addEstate(url, i){
+	$.getJSON(url, function(data){
+		$("#recomends")
+		  .append($("<div/>").addClass("estate_card").attr("id", "estate_card_" + i));
+		$("#estate_card_" + i)
+		  .append($("<table/>").addClass("estate_table"))
+		  .click(function(){
+		  	outPage(data.linkto);
+		  })
+		  .hover(
+		  	function(){
+		  		$(this).removeClass("estate_card").addClass("estate_card active");
+		  	},function(){
+		  		$(this).removeClass("estate_card active").addClass("estate_card");
+		  	}
+		  );
+		
+		$("#estate_card_" + i + " table").append(
+			$("<tr/>")
+				.append($("<td/>").addClass("row_head").text("建物名"))
+				.append($("<td/>").addClass("prop_col").text(data.name))
+				.append($("<td/>").addClass("img_col").attr("rowspan", "7")
+					.append('<img src="estate/' + data.space_img + '" class="estate_img">'))
+		);
+		
+		addTd("#estate_card_" + i + " table", "住所", data.address);
+		var ways = data.station.map(function(d){ return $("<div/>", {text:d.name + " " + d.way}); });
+		$("#estate_card_" + i + " table").append(
+			$("<tr/>")
+				.append($("<td/>").addClass("row_head").text("最寄駅"))
+				.append($("<td/>").addClass("prop_col").append(ways)
+				)
+		);
+		addTd("#estate_card_" + i + " table", "区分", data.type);
+		addTd("#estate_card_" + i + " table", "階建", data.floor);
+		addTd("#estate_card_" + i + " table", "築年数", data.age);
+		addTd("#estate_card_" + i + " table", "コメント", data.comment);
+	});
+}
+
+function addTd(obj, name, value){
+		$(obj).append(
+			$("<tr/>")
+				.append($("<td/>").addClass("row_head").text(name))
+				.append($("<td/>").addClass("prop_col").text(value))
+		);
+}
+
+</script>

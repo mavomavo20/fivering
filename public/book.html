@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+<title>ファイブリング株式会社</title>
+<meta name="description" content="事業用不動産の仲介業者"/>
+<meta name="keywords" content="ファイブリング, 不動産, 渋谷"/>
+
+<style>
+@import url(css/jquery-ui-custom.min.css);
+@import url(css/template.css);
+
+
+.message_box {
+	margin: 0 auto;
+	background-color: #eeeeee;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.message_box img {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.message_text {
+	text-indent: 1em;
+	padding-top: 10px;
+	padding-bottom: 0px;
+}
+
+.message_title {
+	margin-top: 0px;
+	margin-bottom: 5px;
+	font-size: x-large;
+	text-align: left;
+	text-indent: 1em;
+	font-weight: bolder;
+}
+
+.message_footer {
+	font-size: small;
+	vertical-align: middle;
+	text-align: right;
+	margin: 0px auto;
+}
+
+.message_footer table{
+	width: 33%;
+	margin-top: 5px;
+	margin-left: auto;
+	margin-right: 0px;
+}
+.message_footer table tr td{
+	vertical-align: middle;
+}
+.message_footer table tr td img{
+	vertical-align: middle;
+}
+
+table, td, th {
+	/* border: 1px #ff0000 solid; */
+	border-collapse: separate;
+	border-spacing: 0px;
+}
+
+hr {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- メインタイトル部分 ---------------------------------------->
+<hr>
+<div class="title div">
+	<table>
+	<tr>
+	<td>
+		<img src="image/comp_logo.jpg" id="comp_logo" width="40px">
+	</td><td>
+		ファイブリング株式会社
+	</td>
+	</tr>
+	</table>
+</div>
+<hr>
+
+<!-- コントロールボタン部分 ---------------------------------------->
+<div class="controll bar">
+	<table><tr>
+	<td><div id="home_button" class="bar_button">ホーム</div></td>
+	<td><div id="comp_button" class="bar_button">会社概要</div></td>
+	<td><div id="service_button" class="bar_button">サービス</div></td>
+	<td><div id="owner_button" class="bar_button">オーナー様へ</div></td>
+	<td><div id="contact_button" class="bar_button">お問い合わせ</div></td>
+	</tr></table>
+</div>
+
+<!-- 以下、コンテンツ ---------------------------------------->
+<div class="contents">
+	<div class="message_box">
+
+		<img src="image/book.jpg">
+
+	</div>
+
+	<!-- 以下、フッタ ---------------------------------------->
+	<div class="foot div">
+	事業用不動産ならファイブリング
+	</div>
+</div>
+</body>
+
+<script src="lib/jquery.min.js"></script>
+<script src="lib/jquery-ui-custom.min.js"></script>
+<script src="lib/common.js"></script>
+<script>
+$(function(){
+	commonInit();
+});
+$(window).bind("load",function(){
+	$(".contents").fadeIn("1000");
+	$(".foot.div").show("1000");
+});
+
+</script>

@@ -1,0 +1,263 @@
+﻿<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+<title>ファイブリング株式会社</title>
+<meta name="description" content="事業用不動産の仲介業者"/>
+<meta name="keywords" content="ファイブリング, 不動産, 渋谷"/>
+
+<style>
+@import url(css/jquery-ui-custom.min.css);
+@import url(css/template.css);
+
+
+.message_box {
+	margin: 0 auto;
+	background-color: #dddddd;
+	padding-top: 20px;
+	padding-bottom: 10px;
+	padding-left: 30px;
+	padding-right: 30px;
+	width: 70%;
+}
+
+.message_box table {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.message_box table tr td {
+	vertical-align: top;
+}
+
+.message_box table tr td iframe {
+	width: 300px;
+	height: 350px;
+	margin-top: auto;
+	margin-bottom: auto;
+	margin-left: 30px;
+}
+
+.message_text {
+	width: 500px;
+	text-align: left;
+	padding-bottom: 0px;
+}
+
+.message_title {
+	margin-top: 0px;
+	margin-bottom: 15px;
+	font-size: x-large;
+	text-align: left;
+	font-weight: bolder;
+}
+
+.message_title table {
+	margin-left: 0;
+}
+
+.message_title td {
+	padding-left: 10px;
+}
+
+.message_title img {
+	vertical-align: middle;
+}
+
+.strong {
+	font-size: large;
+	text-decoration: underline;
+	text-align: left;
+}
+
+.message_footer {
+	font-size: small;
+	vertical-align: middle;
+	text-align: right;
+	margin: 0px auto;
+}
+
+.message_footer table{
+	width: 33%;
+	margin-top: 5px;
+	margin-left: auto;
+	margin-right: 0px;
+}
+.message_footer table tr td{
+	vertical-align: middle;
+}
+.message_footer table tr td img{
+	vertical-align: middle;
+}
+
+.notes {
+	text-indent: 1em;
+	text-align: left;
+}
+
+.input_box {
+	width: 550px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#textForm {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#textForm fieldset table {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#textForm fieldset table td {
+	padding: 3px 5px;
+	vertical-align: top;
+}
+
+.entryBox {
+	width: 300px;
+}
+
+.messageBox {
+	width: 300px;
+	height: 80px;
+	vertical-align: top;
+	line-height:0em;
+
+}
+
+
+table, td, th {
+	/*border: 1px #ff0000 solid; */
+	border-collapse: separate;
+	border-spacing: 0px;
+}
+
+hr {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- メインタイトル部分 ---------------------------------------->
+<hr>
+<div class="title div">
+	<table>
+	<tr>
+	<td>
+		<img src="image/comp_logo.jpg" id="comp_logo" width="40px">
+	</td><td>
+		ファイブリング株式会社
+	</td>
+	</tr>
+	</table>
+</div>
+<hr>
+
+<!-- コントロールボタン部分 ---------------------------------------->
+<div class="controll bar">
+	<table><tr>
+	<td><div id="home_button" class="bar_button">ホーム</div></td>
+	<td><div id="comp_button" class="bar_button">会社概要</div></td>
+	<td><div id="service_button" class="bar_button">サービス</div></td>
+	<td><div id="owner_button" class="bar_button">オーナー様へ</div></td>
+	<td><div id="contact_button" class="bar_button">お問い合わせ</div></td>
+	</tr></table>
+</div>
+
+<!-- 以下、コンテンツ ---------------------------------------->
+<div class="contents">
+<div class="message_box">
+	<table>
+	<tr><td>
+		<div class="message_title">
+			<table><tr>
+				<td>
+					<img src="image/comp_logo.jpg" width="40px">
+				</td>
+				<td>
+					ファイブリング株式会社
+				</td></tr>
+			</table>
+		</div>
+		<div class="message_text">
+			東京都知事（１）第９５２６４号<br>
+			 <br>
+			〒１５０ー００４３<br>
+			東京都渋谷区道玄坂２－１８－１１　サンモール道玄坂<br>
+			 <br>
+			Mail : info@5-ring.com<br>
+			 <br>
+			Tel  : 03-5428-8274<br>
+			Fax  : 03-6732-3221<br>
+			 <br>
+			ホームページに掲載されていない物件情報もございます。<br>
+			数千件に及ぶ物件の中から、御社に最適な不動産をご提案致します。<br>
+			<div class="strong">
+				物件情報はメールでお送り致します。<br>
+			</div>
+			<div class="strong">
+				また、ご案内時は原則、現地待ち合わせになります。<br>
+			</div>
+			ご希望がなければ、弊社にお越しいただく必要はありません。<br>
+			 <br>
+		</div>
+	</td>
+	<td>
+		<iframe width="300" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.co.jp/maps?f=q&amp;source=s_q&amp;hl=ja&amp;geocode=&amp;q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E9%81%93%E7%8E%84%E5%9D%82%EF%BC%92%EF%BC%8D%EF%BC%91%EF%BC%98%EF%BC%8D%EF%BC%91%EF%BC%91%E3%80%80%E3%82%B5%E3%83%B3%E3%83%A2%E3%83%BC%E3%83%AB%E9%81%93%E7%8E%84%E5%9D%82&amp;aq=&amp;sll=35.673343,139.710388&amp;sspn=0.339142,0.676346&amp;t=h&amp;brcurrent=3,0x60188cb2eb3108d1:0xf11cd9b2395b6677,0&amp;ie=UTF8&amp;hq=&amp;hnear=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E9%81%93%E7%8E%84%E5%9D%82%EF%BC%92%E4%B8%81%E7%9B%AE%EF%BC%91%EF%BC%98%E2%88%92%EF%BC%91%EF%BC%91+%E3%82%B5%E3%83%B3%E3%83%A2%E3%83%BC%E3%83%AB%E9%81%93%E7%8E%84%E5%9D%82&amp;ll=35.6589,139.696312&amp;spn=0.024408,0.025749&amp;z=14&amp;iwloc=A&amp;output=embed&iwloc=B"></iframe><br /><small><a href="https://maps.google.co.jp/maps?f=q&amp;source=embed&amp;hl=ja&amp;geocode=&amp;q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E9%81%93%E7%8E%84%E5%9D%82%EF%BC%92%EF%BC%8D%EF%BC%91%EF%BC%98%EF%BC%8D%EF%BC%91%EF%BC%91%E3%80%80%E3%82%B5%E3%83%B3%E3%83%A2%E3%83%BC%E3%83%AB%E9%81%93%E7%8E%84%E5%9D%82&amp;aq=&amp;sll=35.673343,139.710388&amp;sspn=0.339142,0.676346&amp;t=h&amp;brcurrent=3,0x60188cb2eb3108d1:0xf11cd9b2395b6677,0&amp;ie=UTF8&amp;hq=&amp;hnear=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E9%81%93%E7%8E%84%E5%9D%82%EF%BC%92%E4%B8%81%E7%9B%AE%EF%BC%91%EF%BC%98%E2%88%92%EF%BC%91%EF%BC%91+%E3%82%B5%E3%83%B3%E3%83%A2%E3%83%BC%E3%83%AB%E9%81%93%E7%8E%84%E5%9D%82&amp;ll=35.6589,139.696312&amp;spn=0.024408,0.025749&amp;z=14&amp;iwloc=A" style="color:#0000FF;text-align:left">大きな地図で見る</a></small>
+	</td></tr>
+	<tr>
+		<td colspan="2">
+			<div class="input_box">
+				<div class="notes">（ご要望は一番下の欄にご記入下さい）</div>
+			    <form id="textForm" action="">
+	            <fieldset>
+	            	<table>
+	            	<tr>
+	            	<td>Name:</td>
+					<td><input type="text" title="Name" name="nameBox" class="entryBox"/></td>
+					</tr><tr>
+					<td>Email:</td>
+					<td><input type="text" title="Email" name="emailBox" class="entryBox"/></td>
+					</tr><tr>
+					<td>Subject:</td>
+					<td><input type="text" title="Subject" name="subjectBox" class="entryBox"/></td>
+					</tr><tr>
+					<td>Message:</td>
+					<td><input type="text" title="Message" name="messageBox" class="messageBox"/></td>
+					</tr>
+					</table>
+					<input type="button" id="submit" value="Send" />
+				</fieldset>
+				</form>
+			</div>
+		</td>
+	</tr>
+	</table>
+</div>
+<!-- 以下、フッタ ---------------------------------------->
+<div class="foot div">
+事業用不動産ならファイブリング
+</div>
+</div>
+</body>
+
+<script src="lib/jquery.min.js"></script>
+<script src="lib/jquery-ui-custom.min.js"></script>
+<script src="lib/common.js"></script>
+<script>
+
+$(function(){
+	commonInit();
+	$("#contact_button").css("background-color", "#666666");
+});
+$(window).bind("load",function(){
+	$(".contents").fadeIn("1000");
+	$(".foot.div").show("1000");
+});
+</script>

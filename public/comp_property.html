@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+<title>ファイブリング株式会社</title>
+<meta name="description" content="事業用不動産の仲介業者"/>
+<meta name="keywords" content="ファイブリング, 不動産, 渋谷"/>
+
+<style>
+@import url(css/jquery-ui-custom.min.css);
+@import url(css/template.css);
+
+
+.message_box {
+	margin: auto auto;
+	background-color: #ddddff;
+	width: 960px;
+}
+
+.message_box table {
+	text-align: center;
+	margin: auto auto;
+	width: 100%;
+}
+
+.message_box table tr td.img {
+	vertical-align: middle;
+	padding: 10px 0px 10px 2%;
+}
+
+.message_box table tr td.message {
+	vertical-align: top;
+	text-align: left;
+	padding: 10px 2%;
+}
+
+.message_text {
+	text-indent: 1em;
+}
+
+#comp_image {
+	width: 280px;
+	border-color: #FFFFFF;
+}
+
+.head_message {
+	font-size: x-large;
+	font-weight: bolder;
+	text-align: center;
+	margin: 1% 2% 2% 2%;
+}
+
+.strong_message {
+	text-align: center;
+	font-weight: bolder;
+}
+
+.message_footer {
+	font-size: small;
+	vertical-align: middle;
+	text-align: right;
+	margin: 0px auto;
+}
+
+.message_footer table{
+	width: 33%;
+	margin-top: 5px;
+	margin-left: auto;
+	margin-right: 0px;
+}
+.message_footer table tr td{
+	vertical-align: middle;
+}
+.message_footer table tr td img{
+	vertical-align: middle;
+}
+
+table, td, th {
+	/* border: 1px #ff0000 solid; */
+	border-collapse: separate;
+	border-spacing: 0px;
+}
+
+hr {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- メインタイトル部分 ---------------------------------------->
+<hr>
+<div class="title div">
+	<table>
+	<tr>
+	<td>
+		<img src="image/comp_logo.jpg" id="comp_logo" width="40px">
+	</td><td>
+		ファイブリング株式会社
+	</td>
+	</tr>
+	</table>
+</div>
+<hr>
+
+<!-- コントロールボタン部分 ---------------------------------------->
+<div class="controll bar">
+	<table><tr>
+	<td><div id="home_button" class="bar_button">ホーム</div></td>
+	<td><div id="comp_button" class="bar_button">会社概要</div></td>
+	<td><div id="service_button" class="bar_button">サービス</div></td>
+	<td><div id="owner_button" class="bar_button">オーナー様へ</div></td>
+	<td><div id="contact_button" class="bar_button">お問い合わせ</div></td>
+	</tr></table>
+</div>
+
+<!-- 以下、コンテンツ ---------------------------------------->
+<div class="contents">
+	<div class="message_box">
+		<center>
+		<table>
+		<tr>
+		<td class="img">
+			<img id="comp_image" src="image/comp_image.jpg">
+		</td>
+		<td class="message">
+			<div class="comp_message">
+				<div class="head_message">「事業用不動産専門のエキスパート集団」</div>
+				<div class="strong_message">それがファイブリングです。</div>
+				<br>
+				<div class="message_text">
+				私たちは店舗や事務所、倉庫といった事業用の不動産をご紹介しています。<br>
+				たんに条件に合う物件をご紹介するだけでなく、業種や用途にマッチする環境まで<br>
+				考慮して、不動産をご提案させていただきます。
+				<br><p>
+				私たちの業務にお客様の事業の命運がかかっていると言っても過言ではないほど、<br>
+				オフィスや店舗を構える場所は重要です。<br>私たちは
+				その責任を受け止め、
+				本気で業務に取り組んでおります。
+				</p>
+				住居であれば、簡単に引越しが可能ですが、事業用の場合はそうはいきません。
+				<br><p>
+				御社の不動産部になったつもりで、物件のご紹介から契約条件の交渉、<br>
+				部屋のレイアウト案まで親身になって考え抜きます。そのため、<br>日頃から
+				物件情報や、人の流れ、街の活気などの情報収集に努めております。
+				</p>
+				絶えず変化する都会の生の情報を、プロの視点でご提供させていただきます。
+				<br><br>
+				</div>
+				<div class="strong_message">御社の事業が最大限の効果を発揮できる環境を
+				<br>提案することが私たちの使命です！</div>
+	            <div class="message_footer">
+		            <table>
+		            <tr><td>
+		            	ファイブリング株式会社<br>代表取締役　土肥 弘幸
+		            </td><td>
+		            	<img src="image/comp_logo.jpg" id="comp_logo" width="38px">
+		            </td>
+		            </tr>
+		            </table>
+	            </div>
+			</div>
+		</td>
+		</tr>
+		</table>
+		</center>
+	</div>
+	<!-- 以下、フッタ ---------------------------------------->
+	<div class="foot div">
+	事業用不動産ならファイブリング
+	</div>
+</div>
+</body>
+
+<script src="lib/jquery.min.js"></script>
+<script src="lib/jquery-ui-custom.min.js"></script>
+<script src="lib/common.js"></script>
+<script>
+
+$(function(){
+	commonInit();
+	$("#comp_button").css("background-color", "#666666");
+});
+$(window).bind("load",function(){
+	$(".contents").fadeIn("1000");
+	$(".foot.div").show("1000");
+});
+</script>
