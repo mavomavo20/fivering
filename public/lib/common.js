@@ -30,7 +30,7 @@
 					movePage("owner.html");
 					break;
 				case "contact_button":
-					movePage("contact.html");
+					movePage("http://www.5-ring.com/#!contact_us/c13vo");
 					break;
 			}
 		});

@@ -63,13 +63,7 @@
 	padding-left: 30px;
 	padding-right: 30px;
 	background-color: #dddddd;
-	/*border: 1px #aaaaaa solid;
-	box-shadow: 0px 0px 3px 3px #dddddd;
-	-moz-box-shadow: 0px 0px 3px 3px #dddddd;
-	-webkit-box-shadow: 0px 0px 3px 3px #dddddd;
-	border-radius: 20px 20px 20px 20px / 20px 20px 20px 20px; */
 }
-
 
 .examples table tr td img {
 	width: 200px;
@@ -210,7 +204,6 @@
 	margin-top: 8px;
 	margin-bottom: 8px;
 	text-align: center;
-	/*font-size: large;*/
 	font-weight: bolder;
 }
 
@@ -221,7 +214,6 @@
 }
 
 .sub_info.text {
-	/*padding-left: 2px;*/
 	text-indent: 1em;
 	vertical-align: top;
 	margin-top: 0px;
@@ -339,11 +331,12 @@ hr {
 				<h3>物件資料をご希望の方は<div class="linkToSearch">こちら</div></h3>
 			</div>
 			
+			<!--
 			<div class="recomend_title">
 				オススメの物件
 			</div>
 			<div id="recomends">
-			</div>
+			</div> -->
 			
 		</div>
 	</td>
@@ -444,9 +437,7 @@ hr {
 $(function(){
 	commonInit();
 	$("#home_button").css("background-color", "#666666");
-	addEstate("estate/doi.json", 1);
-	addEstate("estate/doi.json", 2);
-	addEstate("estate/doi.json", 3);
+	//addEstate("estate/doi.json", 1);
 });
 $(window).bind("load",function(){
 	$(".contents").fadeIn("1000");
@@ -506,7 +497,7 @@ function mouseoverExample(id){
 		.addClass("example_name active");
 	$(exampleImg).addClass("active");
 }
-//物件検索アイテムにマウスアウトした際の処理関数
+//物件検索アイテムにマウスアウトした際の処理
 function mouseoutExample(id){
 	var idName = id.replace("_img", "").replace("_name", "");
 	var exampleName, exampleImg;
@@ -529,7 +520,7 @@ function mouseoutExample(id){
 		.addClass("example_name");
 	$(exampleImg).removeClass("active");
 }
-//物件検索アイテムをクリックした際の処理関数
+//物件検索アイテムをクリックした際の処理
 function clickExample(id){
 	var idName = id.replace("_img", "").replace("_name", "");
 	switch(idName){

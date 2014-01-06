@@ -1,0 +1,71 @@
+﻿<head>
+<title>認証</title>
+<style type="text/css">
+#inputDiv {
+  width: 500px;
+  background-color: #DDDDDD;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: large;
+  text-align: center;
+}
+
+#inputTable {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2px 3px;
+}
+
+.textBox {
+  width: 300px;
+}
+
+#showButton {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: large;
+}
+</style>
+
+<script type="text/javascript">
+//認証
+function auth(){
+  dat = {id:$("#idBox").val(), pw:$("#pwBox").val()};
+  
+  location.href = "<%= @servername %>/maps/auth?" + $.param(dat);
+}
+
+//エンターキーで実行
+$("#showButton").keypress(function(ev) {
+	if ((ev.which && ev.which === 13) || (ev.keyCode && ev.keyCode === 13)) {
+		auth();
+	}
+});
+</script>
+
+</head>
+
+<body>
+
+<h1>ログインしてください。</h1>
+<hr>
+<div id="inputDiv">
+	<form id="auth_form">
+		<table id="inputTable">
+		  <tr>
+		    <td>ID</td><td><input type="text" class="textBox" id="idBox" value="" tabindex="1"/></td>
+		  </tr><tr>
+		    <td>PW</td><td><input type="text" class="textBox" id="pwBox" value="" tabindex="2"/></td>
+		  </tr>
+		</table>
+		<input type="button" id="showButton" value="ログイン" onclick="auth()" tabindex="3"/>
+	</form>
+</div>
+</body>
+
+<script type="text/javascript">
+//フォーカス
+$(function(){
+  $("#idBox").focus();
+});
+</script>

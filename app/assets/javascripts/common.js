@@ -18,19 +18,19 @@
 			var id = $(this).attr("id");
 			switch (id) {
 				case "home_button":
-					movePage("index.html");
+					movePage("http://www.5-ring.com/");
 					break;
 				case "comp_button":
-					movePage("comp_property.html");
+					movePage("http://www.5-ring.com/#!about_us/ciaa");
 					break;
 				case "service_button":
-					movePage("service.html");
+					movePage("http://www.5-ring.com/#!services/c1jik");
 					break;
 				case "owner_button":
-					movePage("owner.html");
+					movePage("http://www.5-ring.com/#!rentals/c1x2s");
 					break;
 				case "contact_button":
-					movePage("contact.html");
+					movePage("http://www.5-ring.com/#!contact_us/c13vo");
 					break;
 			}
 		});

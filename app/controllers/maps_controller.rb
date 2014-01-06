@@ -3,13 +3,25 @@
 require 'json'
 
 class MapsController < ApplicationController
-  @@servername = 'http://fivering.herokuapp.com/'
+  @@servername = 'http://five-ring.herokuapp.com/'
   #@@servername = "http://localhost:3000"
   @@fileIDLength = 12
   WEEK_EXP = ["日", "月", "火", "水", "木", "金", "土"]
+  MAPS_DATA_DIR = "data/maps"
+  
+  ID = "doidoi"
+  PW = "doidoi"
+  
+  def auth_check(page)
+    if session[:id].blank? or session[:id] != ID then
+      render :action=> "auth_page", :param=> {page:page} and return
+    end
+    return
+  end
   
   #管理画面トップ
   def admin_page
+    auth_check("admin_page")
     @servername = @@servername
   end
   
@@ -18,7 +30,7 @@ class MapsController < ApplicationController
     @servername = @@servername
     @id = params[:id]
     
-    filename = "data/#{@id}.json"
+    filename = "#{MAPS_DATA_DIR}/#{@id}.json"
     
     #ファイルが存在しない場合の処理
     if File.exists?(filename) == false then
@@ -36,11 +48,13 @@ class MapsController < ApplicationController
 
   #登録画面
   def new
+    auth_check("new")
     @servername = @@servername
   end
   
   #登録処理
   def commit
+    auth_check("admin_page")
     @servername = @@servername
     
     #パラメータ取得
@@ -52,7 +66,8 @@ class MapsController < ApplicationController
     #ファイル保存
     fileID = rand(36**@@fileIDLength).to_s(36)
     begin
-	    newFile = File.open("data/" + fileID + ".json", "w")
+    	filename = "#{MAPS_DATA_DIR}/#{fileID}.json"
+	    newFile = File.open(filename, "w")
 	    newFile.puts "{\"title\":\"#{title}\",\"center\":#{center},\"zoom\":#{zoom},\"data\":#{json}}"
 	    newFile.close
 	    
@@ -64,11 +79,12 @@ class MapsController < ApplicationController
   
   #ファイル管理
   def management
+    auth_check("management")
     @servername = @@servername
     
     begin
 	    #保存したファイル一覧
-	    files = Dir.entries("data/")
+	    files = Dir.entries(MAPS_DATA_DIR)
 	    
 	    #ファイル一覧の情報を取得
 	    objs = []
@@ -80,7 +96,7 @@ class MapsController < ApplicationController
 	    		next
 	    	end
 	    	
-	    	filePath = "data/" + file
+	    	filePath = "#{MAPS_DATA_DIR}/#{file}"
 	    	mtime_date = File.mtime(filePath)
 	    	weekNum = mtime_date.strftime("%w").to_i
 	    	mdate = mtime_date.strftime("%Y-%m-%d（#{WEEK_EXP[weekNum]}）")
@@ -101,13 +117,31 @@ class MapsController < ApplicationController
   
   #ファイル削除
   def del
+    auth_check("admin_page")
+    if params[:id].blank? then
+      render :action => "error"
+    end
     fileID = params[:id]
-    filepath = "data/" + fileID + ".json"
+    filepath = "#{MAPS_DATA_DIR}/#{fileID}.json"
     if File.exists?(filepath) then
       File.delete(filepath)
       render :json=> {result:"ok"} and return
     end
     render :json=> {result:"ng"} and return
+  end
+  
+  #認証画面
+  def auth_page
+  end
+  
+  #認証処理
+  def auth
+    @servername = @@servername
+    if params[:id] == ID and params[:pw] == PW then
+      session[:id] = ID
+      render :action=> "admin_page" and return
+    end
+    render :action=> "auth_page" and return
   end
   
   #エラー時の処理
