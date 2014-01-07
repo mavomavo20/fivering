@@ -36,8 +36,8 @@
     width: 110px;
   }
   
-  .showButtonCol, .delButtonCol {
-    width: 100px;
+  .showButtonCol, .delButtonCol, .addButtonCol {
+    width: 70px;
   }
   
   .showButton, .delButton {
@@ -135,6 +135,7 @@
 		    .append($("<td/>").css("text-align", "center").css(color).text(json.mdate))
 		    .append($("<td/>").css("text-align", "center").css(color).text(json.mtime))
 		    .append($("<td/>").css(color).append('<input type="button" class="showButton" value="開く" onclick="show(\'' + json.id + '\')"/>'))
+		    .append($("<td/>").css(color).append('<input type="button" class="delButton" value="追加" onclick="add(\'' + json.id + '\')"/>'))
 		    .append($("<td/>").css(color).append('<input type="button" class="delButton" value="削除" onclick="del(\'' + json.id + '\')"/>'))
 		);
     }
@@ -142,6 +143,10 @@
   
   function show(id){
     window.open("<%= @servername%>/client/show?id=" + id);
+  }
+  
+  function add(id){
+    window.open("<%= @servername%>/maps/add?id=" + id);
   }
   
   function del(id){
@@ -223,6 +228,7 @@
 	    <th class="mdateCol">最終更新日</th>
 	    <th class="mtimeCol">最終更新時刻</th>
 	    <th class="showButtonCol">表示</th>
+	    <th class="addButtonCol">追加</th>
 	    <th class="delButtonCol">削除</th>
 	  </tr>
 	</table>

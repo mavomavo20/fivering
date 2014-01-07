@@ -1,5 +1,6 @@
 FiveRing::Application.routes.draw do
   get "maps/new"
+  get "maps/add"
   get "maps/commit"
   get "maps/management"
   get "maps/del"

@@ -3,8 +3,8 @@
 require 'json'
 
 class MapsController < ApplicationController
-  @@servername = 'http://five-ring.herokuapp.com/'
-  #@@servername = "http://localhost:3000"
+  #@@servername = 'http://five-ring.herokuapp.com/'
+  @@servername = "http://localhost:3000"
   @@fileIDLength = 12
   WEEK_EXP = ["日", "月", "火", "水", "木", "金", "土"]
   MAPS_DATA_DIR = "data/maps"
@@ -52,6 +52,28 @@ class MapsController < ApplicationController
     @servername = @@servername
   end
   
+  #追加画面
+  def add
+    auth_check("add")
+    @servername = @@servername
+    @id = params[:id]
+    
+    filename = "#{MAPS_DATA_DIR}/#{@id}.json"
+    
+    #ファイルが存在しない場合の処理
+    if File.exists?(filename) == false then
+    	render :action => "error" and return
+    end
+    
+    begin
+	    file = File.open(filename, "r");
+	    @json = file.gets.chomp
+	    file.close
+    rescue
+    	render :action => "error" and return
+    end
+  end
+  
   #登録処理
   def commit
     auth_check("admin_page")
@@ -64,14 +86,18 @@ class MapsController < ApplicationController
     center = params[:center]
     
     #ファイル保存
-    fileID = rand(36**@@fileIDLength).to_s(36)
+    fileID = params[:id] #パラメータでIDを指定されていれば、そのIDを使用
+    if fileID == "" then
+    	#指定されていなければ生成
+	    fileID = rand(36**@@fileIDLength).to_s(36)
+	end
     begin
     	filename = "#{MAPS_DATA_DIR}/#{fileID}.json"
 	    newFile = File.open(filename, "w")
 	    newFile.puts "{\"title\":\"#{title}\",\"center\":#{center},\"zoom\":#{zoom},\"data\":#{json}}"
 	    newFile.close
 	    
-	    render :json => {url:@servername + "/maps/show?id=" + fileID}
+	    render :json => {url:@servername + "/client/show?id=" + fileID}
     rescue
     	render json => {url:"エラーが発生しました。"}
     end

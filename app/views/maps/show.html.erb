@@ -82,15 +82,12 @@
 
 var map;
 var geo;
-var locations = new Array();
 var json = JSON.parse('<%= @json.html_safe %>');
 var title = json.title;
 var placeArray = json.data;
-var interval;
 var letterList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
 function init() {
-
   var zoom = json.zoom;
   var center = json.center;
 
@@ -113,7 +110,7 @@ function init() {
   	var req = {
   	 	address: placeArray[itr].address,
   	};
-  	geo.geocode(req, initCallback(itr));
+  	geo.geocode(req, putMarkerCallback(itr));
   	
   	//隔行塗りつぶし
   	var color = {"background-color":"#FFEEDD"}
@@ -133,12 +130,11 @@ function init() {
     .append($("<tr/>")
         .append($("<td colspan='2'/>").css(color).css({"color":"#000044"}).text(comment)))
   }
-  //interval = setInterval("setCenter(locations)", 500);
   
 }
 
 /*******************************/
-function initCallback(nowItr){
+function putMarkerCallback(nowItr){
   return function(result, status) {
     if (status != google.maps.GeocoderStatus.OK) {
       alert(status);
@@ -146,7 +142,6 @@ function initCallback(nowItr){
     }
 
     var latlng = result[0].geometry.location;
-    locations.push(latlng);
     var marker = new google.maps.Marker({position:latlng, map:map, icon:"<%= @servername.html_safe %>/assets/comp_logo_" + letterList[nowItr] + ".png"});
     attachMessage(marker, placeArray[nowItr].name);
   }
@@ -160,21 +155,6 @@ function attachMessage(marker, msg) {
 	google.maps.event.addListener(marker, 'click', function(event) {
 		infowin.open(marker.getMap(), marker);
 	});
-}
-
-function setCenter(loc){
-	if(loc.length == placeArray.length){
-		var ob = 0.0, pb = 0.0, num = loc.length;
-		for(var i = 0; i < loc.length; i = i + 1){
-			ob = ob + loc[i].ob;
-			pb = pb + loc[i].pb;
-		}
-		ob = ob / num;
-		pb = pb / num;
-		map.setCenter(new google.maps.LatLng(ob, pb));
-		clearInterval(interval);
-		return;
-	}
 }
 
 /* 初期化処理 ************************************/
