@@ -87,19 +87,21 @@ class MapsController < ApplicationController
     
     #ファイル保存
     fileID = params[:id] #パラメータでIDを指定されていれば、そのIDを使用
-    if fileID == "" then
+    if fileID.blank? == true then
     	#指定されていなければ生成
 	    fileID = rand(36**@@fileIDLength).to_s(36)
 	end
     begin
+    	puts "#{MAPS_DATA_DIR}/#{fileID}.json"
     	filename = "#{MAPS_DATA_DIR}/#{fileID}.json"
 	    newFile = File.open(filename, "w")
 	    newFile.puts "{\"title\":\"#{title}\",\"center\":#{center},\"zoom\":#{zoom},\"data\":#{json}}"
 	    newFile.close
 	    
-	    render :json => {url:@servername + "/client/show?id=" + fileID}
-    rescue
-    	render json => {url:"エラーが発生しました。"}
+	    render :json => {url:@servername + "/client/show?id=" + fileID} and return
+    rescue => ex
+    	puts ex.message
+    	render json => {url:"エラーが発生しました。"} and return
     end
   end
   
