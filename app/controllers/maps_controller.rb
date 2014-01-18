@@ -1,16 +1,36 @@
 ﻿# coding : utf-8
 
 require 'json'
+require 'pg'
+require 'date'
 
 class MapsController < ApplicationController
   @@servername = 'http://five-ring.herokuapp.com/'
-  #@@servername = "http://localhost:3000"
   @@fileIDLength = 12
   WEEK_EXP = ["日", "月", "火", "水", "木", "金", "土"]
   MAPS_DATA_DIR = "data/maps"
-  
   ID = "doidoi"
   PW = "doidoi"
+  
+  connection_strs = {host:"localhost", user:"user", password:"user", dbname:"develop", port:5432}
+  
+  #コンストラクタ
+  def initialize()
+    super
+    
+  	case ENV['RAILS_ENV']
+  	when "development"
+    	@@servername = "http://localhost:3000"
+  	when "production"
+    	@@servername = 'http://five-ring.herokuapp.com/'
+  	when "test"
+    	@@servername = "http://localhost:3000"
+    end
+  end
+  
+  def select_prop
+  	connection = PG::connect(:host => "localhost", :user => "postgres", :password => "postgres ユーザのパスワード", :dbname => "スキーマの名前", :port => "ポート番号")
+  end
   
   def auth_check(page)
     if session[:id].blank? or session[:id] != ID then
@@ -30,17 +50,16 @@ class MapsController < ApplicationController
     @servername = @@servername
     @id = params[:id]
     
-    filename = "#{MAPS_DATA_DIR}/#{@id}.json"
+    jsonFiles = JsonFile.where("name = '#{@id}'")
     
     #ファイルが存在しない場合の処理
-    if File.exists?(filename) == false then
+    if jsonFiles.length == 0 then
     	render :action => "error" and return
     end
     
     begin
-	    file = File.open(filename, "r");
-	    @json = file.gets.chomp
-	    file.close
+	    record = jsonFiles[0]
+	    @json = record.json
     rescue
     	render :action => "error" and return
     end
@@ -58,17 +77,15 @@ class MapsController < ApplicationController
     @servername = @@servername
     @id = params[:id]
     
-    filename = "#{MAPS_DATA_DIR}/#{@id}.json"
-    
+    jsonFiles = JsonFile.where("name = '#{@id}'")
     #ファイルが存在しない場合の処理
-    if File.exists?(filename) == false then
+    if jsonFiles.length == 0 then
     	render :action => "error" and return
     end
     
     begin
-	    file = File.open(filename, "r");
-	    @json = file.gets.chomp
-	    file.close
+	    record = jsonFiles[0]
+	    @json = record.json
     rescue
     	render :action => "error" and return
     end
@@ -90,17 +107,23 @@ class MapsController < ApplicationController
     if fileID.blank? == true then
     	#指定されていなければ生成
 	    fileID = rand(36**@@fileIDLength).to_s(36)
-	end
+	else
+	    jsonFiles = JsonFile.where("name = '#{fileID}'")
+	    #ファイルが存在する場合の処理
+	    if jsonFiles.length >= 1 then
+	    	JsonFile.delete_all("name = '#{fileID}'")
+	    end
+    end
+	
     begin
-    	puts "#{MAPS_DATA_DIR}/#{fileID}.json"
-    	filename = "#{MAPS_DATA_DIR}/#{fileID}.json"
-	    newFile = File.open(filename, "w")
-	    newFile.puts "{\"title\":\"#{title}\",\"center\":#{center},\"zoom\":#{zoom},\"data\":#{json}}"
-	    newFile.close
+	    name = fileID
+	    updated = DateTime.now
+	    json = "{\"title\":\"#{title}\",\"center\":#{center},\"zoom\":#{zoom},\"data\":#{json}}"
+	    
+	    jsonFile = JsonFile.create(:name=>name, :updated=>updated, :json=>json)
 	    
 	    render :json => {url:@servername + "/client/show?id=" + fileID} and return
     rescue => ex
-    	puts ex.message
     	render json => {url:"エラーが発生しました。"} and return
     end
   end
@@ -112,33 +135,24 @@ class MapsController < ApplicationController
     
     begin
 	    #保存したファイル一覧
-	    files = Dir.entries(MAPS_DATA_DIR)
+	    records = JsonFile.all
 	    
 	    #ファイル一覧の情報を取得
 	    objs = []
-	    files.each{ |file|
-	    	extname = File.extname(file)
-	    	fileID = file.gsub(extname, "")
-	    	#JSON以外のファイルの場合、スキップ
-	    	if extname != ".json" then
-	    		next
-	    	end
+	    records.each{ |record|
 	    	
-	    	filePath = "#{MAPS_DATA_DIR}/#{file}"
-	    	mtime_date = File.mtime(filePath)
+	    	mtime_date = record.updated
 	    	weekNum = mtime_date.strftime("%w").to_i
 	    	mdate = mtime_date.strftime("%Y-%m-%d（#{WEEK_EXP[weekNum]}）")
 	    	mtime = mtime_date.strftime("%H:%M:%S")
 	    	
-	    	curFile = File.open(filePath, "r")
-	    	json = JSON.parse(curFile.gets)
-	    	obj = {"title"=>json["title"], "mdate"=>mdate, "mtime"=>mtime, "id"=>fileID, "length"=>json["data"].size()}
+	    	json = JSON.parse(record.json)
+	    	obj = {"title"=>json["title"], "mdate"=>mdate, "mtime"=>mtime, "id"=>record.name, "length"=>json["data"].size()}
 	    	objs.push(obj)
-	    	curFile.close
 	    }
 	    
 	    @jsonArray = JSON.generate(objs)
-    rescue
+    rescue => ex
     	render :action => "error"
     end
   end
@@ -150,12 +164,15 @@ class MapsController < ApplicationController
       render :action => "error"
     end
     fileID = params[:id]
-    filepath = "#{MAPS_DATA_DIR}/#{fileID}.json"
-    if File.exists?(filepath) then
-      File.delete(filepath)
-      render :json=> {result:"ok"} and return
+
+    jsonFiles = JsonFile.where("name = '#{fileID}'")
+    #ファイルが存在しない場合の処理
+    if jsonFiles.length < 1 then
+    	render :json=> {result:"ng"} and return
     end
-    render :json=> {result:"ng"} and return
+    
+    JsonFile.delete_all("name = '#{fileID}'")
+    render :json=> {result:"ok"} and return
   end
   
   #認証画面
